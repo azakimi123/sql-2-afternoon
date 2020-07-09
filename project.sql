@@ -308,3 +308,38 @@ SELECT SUM(price)
 FROM products
 WHERE product_id IN 
 (SELECT product_id FROM orders WHERE order_number = 3);
+
+--Update the orders table to link a user to each order.
+UPDATE orders
+SET user_id = 1
+WHERE order_id = 1;
+
+UPDATE orders
+SET user_id = 2
+WHERE order_id = 2;
+
+UPDATE orders
+SET user_id = 3
+WHERE order_id = 3;
+
+UPDATE orders
+SET user_id = 3
+WHERE order_id = 4;
+
+
+-- Run queries against your data.
+-- Get all orders for a user.
+
+
+-- Get how many orders each user has.
+SELECT COUNT(DISTINCT orders.order_id), users.user_name
+FROM orders
+JOIN users ON users.user_id = orders.user_id
+JOIN products ON products.product_id = orders.product_id
+GROUP BY users.user_id;
+
+
+SELECT COUNT(DISTINCT orders.order_id), users.user_name
+FROM orders
+JOIN users ON users.user_id = orders.user_id
+GROUP BY users.user_id;
