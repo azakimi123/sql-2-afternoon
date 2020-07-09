@@ -83,6 +83,7 @@ FROM track
 WHERE album_id IN
 (SELECT album_id FROM album WHERE title = 'Fireball');
 
+-- checking to see if the numbers matched withthe nested query
 -- SELECT * FROM album
 -- ORDER BY title ASC;
 
