@@ -162,4 +162,31 @@ FROM album
 JOIN artist ON album.artist_id = artist.artist_id
 GROUP BY artist.name;
 
+--USE DISTINCT--
+-- 1. From the track table find a unique list of all composers.
+SELECT DISTINCT composer
+FROM track;
+
+-- 2. From the invoice table find a unique list of all billing_postal_codes.
+SELECT DISTINCT billing_postal_code
+FROM invoice;
+
+-- 3. From the customer table find a unique list of all companys.
+SELECT DISTINCT company
+FROM customer;
+
+--DELETE PRACTICE--
+-- 1. Copy, paste, and run the SQL code from the summary.
+-- 2. Delete all 'bronze' entries from the table.
+DELETE FROM practice_delete
+WHERE type = 'bronze';
+
+-- 3. Delete all 'silver' entries from the table.
+DELETE FROM practice_delete
+WHERE type = 'silver';
+
+-- 4. Delete all entries whose value is equal to 150.
+DELETE FROM practice_delete
+WHERE value = 150;
+
 
