@@ -189,4 +189,158 @@ WHERE type = 'silver';
 DELETE FROM practice_delete
 WHERE value = 150;
 
+--eCommerce Simulation--
+-- 1. Create 3 tables following the criteria in the summary.
+CREATE TABLE users (
+	user_id SERIAL PRIMARY KEY,
+  user_name VARCHAR(50),
+  email VARCHAR(200)
+);
 
+CREATE TABLE products (
+	product_id SERIAL PRIMARY KEY,
+  product_name VARCHAR(100),
+  price INT
+);
+
+CREATE TABLE orders (
+	order_id SERIAL PRIMARY KEY,
+    order_number INT,
+  product_id INT REFERENCES products(product_id)
+);
+
+-- 2. Add some data to fill up each table. At least 3 users, 3 products, 3 orders.
+--Users Table--
+INSERT INTO users (
+	user_name,
+    email
+) VALUES (
+	'Kurt',
+    'kurt123@gmail.com'
+);
+
+INSERT INTO users (
+	user_name,
+    email
+) VALUES (
+	'Lynne',
+    'lynne456@gmail.com'
+);
+
+INSERT INTO users (
+	user_name,
+    email
+) VALUES (
+	'Kay',
+    'kay789@gmail.com'
+);
+
+--Products Table--
+INSERT INTO products (
+	product_name,
+    price
+) VALUES (
+	'peony',
+    50
+);
+INSERT INTO products (
+	product_name,
+    price
+) VALUES (
+	'rose',
+    75
+);
+
+INSERT INTO products (
+	product_name,
+    price
+) VALUES (
+	'mixed flower',
+    85
+);
+
+--Orders Table--
+INSERT INTO orders (
+	product_id,
+    order_number
+) VALUES (
+    1,
+    1
+);
+
+INSERT INTO orders (
+	product_id,
+    order_number
+) VALUES (
+    2,
+    2
+);
+
+INSERT INTO orders (
+	product_id,
+    order_number
+) VALUES (
+    3,
+    3
+);
+
+INSERT INTO orders (
+	product_id,
+    order_number
+) VALUES (
+    2,
+    3
+);
+
+-- 3. Run queries against your data.
+-- Get all products for the first order.
+SELECT *
+FROM products
+WHERE product_id IN 
+(SELECT product_id FROM orders WHERE order_id = 1);
+
+-- Get all orders.
+SELECT * FROM orders;
+
+-- Get the total cost of an order ( sum the price of all products on an order ).
+SELECT SUM(price)
+FROM products
+WHERE product_id IN 
+(SELECT product_id FROM orders WHERE order_number = 3);
+
+-- 4. Add a foreign key reference from orders to users.
+ALTER TABLE orders
+ADD COLUMN user_id INT REFERENCES users(user_id);
+
+-- 5. Update the orders table to link a user to each order.
+UPDATE orders
+SET user_id = 1
+WHERE order_id = 1;
+
+UPDATE orders
+SET user_id = 2
+WHERE order_id = 2;
+
+UPDATE orders
+SET user_id = 3
+WHERE order_id = 3;
+
+UPDATE orders
+SET user_id = 3
+WHERE order_id = 4;
+
+
+-- Run queries against your data.
+-- 6. Get all orders for a user.
+SELECT COUNT(orders.order_id), users.user_name
+FROM orders 
+JOIN users on users.user_id = orders.user_id
+WHERE users.user_id = 3
+GROUP BY users.user_id;
+
+-- 7. Get how many orders each user has.
+
+SELECT COUNT(DISTINCT orders.order_id), users.user_name
+FROM orders
+JOIN users ON users.user_id = orders.user_id
+GROUP BY users.user_id;
